@@ -17,6 +17,11 @@
             <input type="text" id="username" name="email" required><br>   
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br>
+            <div class="some-class">
+            <label for="username">Choose your roll:</label>
+            <label><input type="radio" name="option" value="Admin">Admin</label>
+            <label><input type="radio" name="option" value="User"> User</label>
+            </div>
             <button type="submit">Register</button>
         </form>
     

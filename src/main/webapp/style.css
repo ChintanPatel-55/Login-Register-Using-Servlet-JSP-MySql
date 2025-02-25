@@ -16,6 +16,19 @@ body {
             
 }
 
+    .some-class {
+      float: left;
+      clear: none;
+    }
+   
+    
+    input[type=radio],
+    input.radio {
+      float: left;
+      clear: none;
+      margin: 2px 0 0 2px;
+    }
+
 .container {
 	width: 80%;
     max-width: 400px;

@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import org.apache.catalina.User;
 
 import com.pr.Dao.User1;
 import com.pr.Dao.UserDao;
@@ -33,12 +32,14 @@ public class RegisterServlet extends HttpServlet {
 		String username = req.getParameter("username");
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
+		String option = req.getParameter("option");
 		 
 		  //Create The User1 Object And set the Value Of DB
 		  User1 user = new User1();
 		  user.setUsername(username);
 		  user.setEmail(email);
 		  user.setPassword(password);
+		  user.setUserRoll(option);
 		  			
 		
 		//This Condition are Check The User Are Added Or Not

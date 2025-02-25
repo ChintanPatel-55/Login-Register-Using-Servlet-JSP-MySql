@@ -5,7 +5,14 @@ public class User1 {
 	private String username;
 	private String password;
 	private String email;
+	private String userRoll;
 	
+	public String getUserRoll() {
+		return userRoll;
+	}
+	public void setUserRoll(String userRoll) {
+		this.userRoll = userRoll;
+	}
 	public String getUsername() {
 		return username;
 	}
