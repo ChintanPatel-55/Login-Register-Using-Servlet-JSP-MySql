@@ -3,10 +3,14 @@ package com.pr.Dao;
 public interface UserDao {
 
 	//Validation Interface
-    boolean isValidUser(String username, String password);
+    boolean isValidUser(String email, String password);
 
 	//AddUser Interface
-	boolean addUser(User1 user);
+//	boolean addUser(User1 user);
 	
-	String getUserRole(String username);
+	//GetUser Roll
+	String getUserRole(String email);
+	
+	String addAddress(String address, int userID);
+	
 }

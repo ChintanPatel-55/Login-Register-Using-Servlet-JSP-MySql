@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
+    <title>Update Page</title>
     <style>
         /* Global Styles */
         body {
@@ -63,18 +63,6 @@
             outline: none;
         }
 
-        .some-class {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .some-class label {
-            font-size: 1em;
-            color: #333;
-            margin-right: 15px;
-        }
-
         button {
             background-color: #007bff;
             color: white;
@@ -90,20 +78,19 @@
             background-color: #0056b3;
         }
 
-        /* Address Input Fields */
         .address-inputs {
             display: flex;
             flex-direction: column;
             margin-bottom: 20px;
         }
 
-        .address-inputs .address-field {
+        .address-field {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
         }
 
-        .address-inputs input {
+        .address-field input {
             padding: 12px;
             font-size: 1em;
             border: 1px solid #ccc;
@@ -123,10 +110,6 @@
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-        }
-
-        .address-button:hover, .remove-button:hover {
-            background-color: #218838;
         }
 
         .remove-button {
@@ -149,7 +132,6 @@
             text-decoration: underline;
         }
 
-        /* Responsive design */
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -157,10 +139,6 @@
 
             h1 {
                 font-size: 1.8em;
-            }
-
-            label {
-                font-size: 1em;
             }
 
             button {
@@ -172,53 +150,45 @@
 <body>
 
 <div class="container">
-    <h1>Admin Add User</h1>
+    <h1>Update Page</h1>
 
     <!-- Registration Form -->
-    <div id="register-form">
-        <form action="StaticRegister" method="post">
-            <label for="fname">First name:</label>
-            <input type="text" id="fname" name="fname" required>
+    <form action="UpdateFileServlet" method="post">
+        <label for="email">Email:</label>
+        <input type="email" id="updateEmail" name="email" value="${email}" required>
+        
+        <label for="email">First Name:</label>
+        <input type="text" id="updateName" name="fname" value="${fname}" required>
+        
+        <label for="email">Last Name:</label>
+        <input type="text" id="updatelName" name="lname" value="${lname}" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" value="${password}" required>
 
-            <label for="lname">Last Name:</label>
-            <input type="text" id="lname" name="lname" required>
+       
+<!--
+  <label for="phone">Phone:</label>
+        <input type="number" id="phone" name="phone" value="${phone}" required>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="phone">Phone:</label>
-            <input type="number" id="phone" name="phone" required>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="address">Address:</label>
-            <div class="address-inputs" id="address-list">
+ <label for="address">Address:</label>
+        <div class="address-inputs" id="address-list">
+            <c:forEach var="address" items="${addresses}">
                 <div class="address-field">
-                    <input type="text" name="address[]" placeholder="Enter address line" required>
+                    <input type="text" name="address_line" value="${address}" required>
                     <button type="button" class="remove-button" onclick="removeAddress(this)">Remove</button>
                 </div>
-            </div>
-            <button type="button" class="address-button" onclick="addAddress()">Add Another Line</button>
-
-            <div class="some-class">
-                <label for="username">Choose your role:</label>
-                <label><input type="radio" name="option" value="Admin"> Admin</label>
-                <label><input type="radio" name="option" value="User"> User</label>
-            </div>
-
-            <button type="submit">Register</button>
-        </form>
-    </div>
+            </c:forEach>
+        </div>
+        <button type="button" class="address-button" onclick="addAddress()">Add Another Line</button>
+ -->
+        <button type="submit">Update</button>
+    </form>
 
     <p><a href="Index.html">Back to Home</a></p>
 </div>
 
 <script>
-    // Function to show the register for
-
-    // 
-
     // Function to add another address input field
     function addAddress() {
         const addressFieldDiv = document.createElement('div');
@@ -226,7 +196,7 @@
 
         const newAddressInput = document.createElement('input');
         newAddressInput.type = 'text';
-        newAddressInput.name = 'address[]';
+        newAddressInput.name = 'address_line';
         newAddressInput.placeholder = 'Enter address line';
         newAddressInput.required = true;
 

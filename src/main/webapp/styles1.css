@@ -1,0 +1,71 @@
+/* General styling for the body */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Container for buttons */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Styling for the admin buttons */
+.admin-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 200px;
+  text-align: center;
+}
+
+/* Hover effect for admin buttons */
+.admin-button:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for the logout button */
+.logout-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #dc3545; /* Red color for logout */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 200px;
+  text-align: center;
+}
+
+/* Hover effect for logout button */
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+/* Responsive design: button and form alignment */
+@media (max-width: 600px) {
+  .button-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .admin-button, .logout-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+  }
+}

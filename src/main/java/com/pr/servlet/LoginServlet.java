@@ -1,5 +1,6 @@
-package com.pr.servlet;
+	package com.pr.servlet;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -27,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 		//Get The Input In login.jsp
-		String username = req.getParameter("username");
+		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 	
 		
@@ -48,21 +49,26 @@ public class LoginServlet extends HttpServlet {
 //			resp.sendRedirect("AdminPage.jsp");
 //		}
 		
-		if(userDao.isValidUser(username, password)) {
+		if(userDao.isValidUser(email, password)) {
 			
-			String roll = userDao.getUserRole(username);
+			String roll = userDao.getUserRole(email);
 			
 			if(roll != null) {
 				if(roll.equals("Admin")) {
-					resp.sendRedirect("AdminPage.jsp");
+					
+					RequestDispatcher rd = req.getRequestDispatcher("./AdminAdd.jsp");
+					rd.forward(req, resp);
+//					resp.sendRedirect("AdminAdd.jsp");
 				}else if(roll.equals("User")) {
-					resp.sendRedirect("UserPage.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("./UserPage.jsp");
+					rd.forward(req, resp);
+//					resp.sendRedirect("UserPage.jsp");
 				}else {
-					resp.sendRedirect("login.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("./login.jsp");
+					rd.forward(req, resp);
+//					resp.sendRedirect("login.jsp");
 				}
 			}
 		}
-		
-		
 	}
 }
