@@ -1,4 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% response.setHeader("Cache-Control","no-cache"); //HTTP 1.1 
+		response.setHeader("Cache-Control", "no-store");
+ 		response.setHeader("Pragma","no-cache"); //HTTP 1.0 
+ 		response.setDateHeader ("Expires", 0); //prevents caching at the proxy server  
+		%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.util.*"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -148,40 +158,52 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <h1>Update Page</h1>
 
-    <!-- Registration Form -->
-    <form action="UpdateFileServlet" method="post">
+     <!-- Registration Form -->
+    <form action="UpdateFileServlet" method="get">
+
+        <!-- Hidden field for user ID -->
+        <input type="hidden" name="id" value="<%= request.getAttribute("id") != null ? request.getAttribute("id") : "" %>">
+
+        <!-- Email field -->
         <label for="email">Email:</label>
-        <input type="email" id="updateEmail" name="email" value="${email}" required>
-        
-        <label for="email">First Name:</label>
-        <input type="text" id="updateName" name="fname" value="${fname}" required>
-        
-        <label for="email">Last Name:</label>
-        <input type="text" id="updatelName" name="lname" value="${lname}" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" value="${password}" required>
+        <input type="email" id="updateEmail" name="email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>" required>
 
-       
-<!--
-  <label for="phone">Phone:</label>
-        <input type="number" id="phone" name="phone" value="${phone}" required>
+        <!-- First Name field -->
+        <label for="fname">First Name:</label>
+        <input type="text" id="updateFname" name="fname" value="<%= request.getAttribute("fname") != null ? request.getAttribute("fname") : "" %>" required>
 
- <label for="address">Address:</label>
+        <!-- Last Name field -->
+        <label for="lname">Last Name:</label>
+        <input type="text" id="updateLname" name="lname" value="<%= request.getAttribute("lname") != null ? request.getAttribute("lname") : "" %>" required>
+
+        <!-- Phone field -->
+        <label for="phone">Phone:</label>
+        <input type="number" id="phone" name="phone" value="<%= request.getAttribute("phone") != null ? request.getAttribute("phone") : "" %>" required>
+
+        <!-- Address field (handling multiple addresses) -->
+        <label for="address">Address:</label>
         <div class="address-inputs" id="address-list">
-            <c:forEach var="address" items="${addresses}">
-                <div class="address-field">
-                    <input type="text" name="address_line" value="${address}" required>
-                    <button type="button" class="remove-button" onclick="removeAddress(this)">Remove</button>
-                </div>
-            </c:forEach>
+            <%
+                // Split the addresses by comma and create an input field for each
+                String addresses = (String) request.getAttribute("addresses");
+                if (addresses != null && !addresses.isEmpty()) {
+                    String[] addressArray = addresses.split(", ");
+                    for (String address : addressArray) {
+            %>
+            <div class="address-field">
+                <input type="text" name="address_line" value="<%= address %>" required>
+                <button type="button" class="remove-button" onclick="removeAddress(this)">Remove</button>
+            </div>
+            <%
+                    }
+                }
+            %>
         </div>
         <button type="button" class="address-button" onclick="addAddress()">Add Another Line</button>
- -->
+
         <button type="submit">Update</button>
     </form>
 

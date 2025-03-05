@@ -2,6 +2,7 @@ package com.pr.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,9 +20,13 @@ public class LogoutServlet extends HttpServlet {
    @Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-	   HttpSession session = req.getSession(false);
-	   
+	   HttpSession session = req.getSession(true);
 	   if(session != null) {
+		   
+		   	resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	        resp.setHeader("Pragma", "no-cache");
+	        resp.setDateHeader("Expires", 0);
+		   
 		   
 		   session.invalidate();
 	   }
