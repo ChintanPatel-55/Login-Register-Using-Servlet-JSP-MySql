@@ -1,7 +1,20 @@
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies
+%> 
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.Connection"%>
+<%
+    // Check if user is authenticated
+    HttpSession sessionn = request.getSession(false);
+    if (sessionn == null || session.getAttribute("authenticated") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -135,6 +148,10 @@
     </style>
 </head>
 <body>
+<script>
+    // Set loggedIn to true when the page loads
+    sessionStorage.setItem('loggedIn', 'true');
+</script>
 <div class="container">
     <h1>User Data</h1>
     <a href="AdminPage.jsp" class="btn btn-add">Add User</a>
@@ -213,7 +230,7 @@
                 </td>
                 <td>
                     <div class="action-buttons">
-                        <a href="UserUpdate.jsp?id=<%= id %>" class="btn btn-update">Update</a>
+                        <a class="btn btn-update" onclick="window.location.href='UpdateFileServlet?id=<%= resultSet.getInt("id") %>'">Update</a>
                         <a href="DeleteUser.jsp?id=<%= id %>" class="btn btn-delete">Delete</a>
                     </div>
                 </td>
@@ -230,6 +247,7 @@
         %>
         </tbody>
     </table>
+       <a href="Logout" class="btn btn-danger">Logout</a>
 </div>
 
 <script>
@@ -257,6 +275,7 @@ function deleteAddress(userId, addId) {
             .catch(error => console.error('Error:', error));
     }
 }
+
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

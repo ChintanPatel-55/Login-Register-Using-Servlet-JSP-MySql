@@ -1,4 +1,4 @@
-	package com.pr.servlet;
+package com.pr.servlet;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -6,13 +6,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-
-
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.pr.Dao.UserDaoImp;
+import com.pr.util.DButil;
 import com.pr.Dao.UserDao;
 
 @WebServlet("/LoginServlet")
@@ -31,36 +34,23 @@ public class LoginServlet extends HttpServlet {
 		String email = req.getParameter("email");
 		String password = req.getParameter("password");
 	
-		
-		
-		
-		//Validation Code If user are Exists in DB or Not
-//		if(userDao.isValidUser(username,password) && "admin".equalsIgnoreCase(userRoll)) {
-//			resp.sendRedirect("AdminPage.jsp");	
-//		}
-//		else {
-//			resp.sendRedirect("login.jsp");
-//			System.out.println("Login Detail Are Invalid");
-//		}
-		
-//		if(username.equals("chintan") && password.equals("1234")) {
-//			resp.sendRedirect("UserPage.jsp");
-//		}else {
-//			resp.sendRedirect("AdminPage.jsp");
-//		}
-		
 		if(userDao.isValidUser(email, password)) {
 			
 			String roll = userDao.getUserRole(email);
 			
 			if(roll != null) {
+				
 				if(roll.equals("Admin")) {
-					
-					RequestDispatcher rd = req.getRequestDispatcher("./AdminAdd.jsp");
-					rd.forward(req, resp);
+					HttpSession session = req.getSession();
+				    session.setAttribute("authenticated", true);
+				    resp.sendRedirect("AdminAdd.jsp");
+					/*
+					 * RequestDispatcher rd = req.getRequestDispatcher("./AdminAdd.jsp");
+					 * rd.forward(req, resp);
+					 */
 //					resp.sendRedirect("AdminAdd.jsp");
 				}else if(roll.equals("User")) {
-					RequestDispatcher rd = req.getRequestDispatcher("./UserPage.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("./UserButton.jsp");
 					rd.forward(req, resp);
 //					resp.sendRedirect("UserPage.jsp");
 				}else {
@@ -71,4 +61,26 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 	}
+//	 @SuppressWarnings("unused")
+//	private void setUserDetails(HttpServletRequest req, String email) {
+//	        String query = "SELECT * FROM Registration WHERE email = ?";
+//	        try (Connection con = DButil.getConnection();
+//	             PreparedStatement pst = con.prepareStatement(query)) {
+//	            pst.setString(1, email);
+//
+//	            try (ResultSet rs = pst.executeQuery()) {
+//	                if (rs.next()) {
+//	                    // Set each user detail as a request attribute
+//	                    req.setAttribute("userId", rs.getInt("id"));
+//	                    req.setAttribute("fname", rs.getString("fname"));
+//	                    req.setAttribute("lname", rs.getString("lname"));
+//	                    req.setAttribute("email", rs.getString("email"));
+//	                    req.setAttribute("phone", rs.getString("phone"));
+////	                    req.setAttribute("address", rs.getString("userRoll"));
+//	                }
+//	            }
+//	        } catch (SQLException e) {
+//	            e.printStackTrace();
+//	      }
+//	 }
 }

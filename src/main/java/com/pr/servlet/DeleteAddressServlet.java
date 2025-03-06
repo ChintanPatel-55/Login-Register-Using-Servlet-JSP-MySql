@@ -34,11 +34,11 @@ public class DeleteAddressServlet extends HttpServlet {
             String password = "1234";
             connection = DriverManager.getConnection(url, username, password);
             
-            String query = "delete from addresses where add_id = ? and id = ?";
+            String query = "delete from addresses where id = ? and add_id  = ?";
             preparedStatement = connection.prepareStatement(query);
             
-            preparedStatement.setInt(1, addId);
-            preparedStatement.setInt(2, userId);
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, addId);
          int result = preparedStatement.executeUpdate();
             
             if(result > 0) {

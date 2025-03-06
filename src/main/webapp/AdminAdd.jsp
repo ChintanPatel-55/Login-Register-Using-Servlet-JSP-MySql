@@ -1,8 +1,17 @@
-<% response.setHeader("Cache-Control","no-cache"); //HTTP 1.1 
-		response.setHeader("Cache-Control", "no-store");
- 		response.setHeader("Pragma","no-cache"); //HTTP 1.0 
- 		response.setDateHeader ("Expires", 0); //prevents caching at the proxy server  
-		%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); // HTTP 1.0
+    response.setDateHeader("Expires", 0); // Proxies
+%> 
+
+<%
+    // Check if user is authenticated
+    HttpSession sessionn = request.getSession(false);
+    if (sessionn == null || session.getAttribute("authenticated") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -58,6 +67,7 @@
 </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Admin Add Page</h1>
         <div class="links">
@@ -66,6 +76,7 @@
         <div class="back-link">
             <p><a href="login.html">Back to Login</a></p>
         </div>
+     
     </div>
 
     <!-- Bootstrap JS and dependencies -->
