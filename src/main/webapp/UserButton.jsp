@@ -23,7 +23,7 @@
 <body>
 
     <div class="center-button">
-        <a href="UserPage.jsp">
+        <a href="UserButtonServlet">
             <button>Edit</button>
         </a>
     </div>

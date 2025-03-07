@@ -44,20 +44,21 @@
             <div class="mb-3">
                 <label class="form-label">Addresses</label>
                 <div id="address-container">
-                    <% 
-                    String addresses = (String) request.getAttribute("addresses");
-                    if (addresses != null && !addresses.isEmpty()) {
-                        String[] addressArray = addresses.split(", ");
-                        for (String address : addressArray) { 
-                    %>
+                       <% 
+                        // Fetch the addresses from the request and iterate over them
+                        String addresses = (String) request.getAttribute("addresses");
+                        if (addresses != null && !addresses.isEmpty()) {
+                            String[] addressArray = addresses.split(", ");
+                            for (String address : addressArray) {
+                    %>  
                         <div class="input-group mb-2">
-                            <input type="text" class="form-control" name="addresses"  required>
+                            <input type="text" class="form-control" name="addresses" value="<%= address %>" required>
                             <button type="button" class="btn btn-danger" onclick="removeAddress(this)">Delete</button>
                         </div>
                     <% 
-                        } 
-                    } 
-                    %>
+                            }
+                        }
+                    %> 
                 </div>
                 <button type="button" class="btn btn-success mt-2" onclick="addAddress()">Add Address</button>
             </div>
@@ -73,12 +74,13 @@
         let div = document.createElement("div");
         div.classList.add("input-group", "mb-2");
         div.innerHTML = `
-            <input type="text" class="form-control" name="address_line" required>
+            <input type="text" class="form-control" name="addresses" required>
             <button type="button" class="btn btn-danger" onclick="removeAddress(this)">Delete</button>
         `;
         container.appendChild(div);
     }
 
+    // Function to remove a dynamically added address field
     function removeAddress(button) {
         button.parentElement.remove();
     }

@@ -43,6 +43,7 @@ public class LoginServlet extends HttpServlet {
 				if(roll.equals("Admin")) {
 					HttpSession session = req.getSession();
 				    session.setAttribute("authenticated", true);
+				    session.setAttribute("userEmail", email);
 				    resp.sendRedirect("AdminAdd.jsp");
 					/*
 					 * RequestDispatcher rd = req.getRequestDispatcher("./AdminAdd.jsp");
@@ -50,6 +51,9 @@ public class LoginServlet extends HttpServlet {
 					 */
 //					resp.sendRedirect("AdminAdd.jsp");
 				}else if(roll.equals("User")) {
+					HttpSession session = req.getSession();
+				    session.setAttribute("authenticated", true);
+				    session.setAttribute("userEmail", email);
 					RequestDispatcher rd = req.getRequestDispatcher("./UserButton.jsp");
 					rd.forward(req, resp);
 //					resp.sendRedirect("UserPage.jsp");
@@ -61,26 +65,4 @@ public class LoginServlet extends HttpServlet {
 			}
 		}
 	}
-//	 @SuppressWarnings("unused")
-//	private void setUserDetails(HttpServletRequest req, String email) {
-//	        String query = "SELECT * FROM Registration WHERE email = ?";
-//	        try (Connection con = DButil.getConnection();
-//	             PreparedStatement pst = con.prepareStatement(query)) {
-//	            pst.setString(1, email);
-//
-//	            try (ResultSet rs = pst.executeQuery()) {
-//	                if (rs.next()) {
-//	                    // Set each user detail as a request attribute
-//	                    req.setAttribute("userId", rs.getInt("id"));
-//	                    req.setAttribute("fname", rs.getString("fname"));
-//	                    req.setAttribute("lname", rs.getString("lname"));
-//	                    req.setAttribute("email", rs.getString("email"));
-//	                    req.setAttribute("phone", rs.getString("phone"));
-////	                    req.setAttribute("address", rs.getString("userRoll"));
-//	                }
-//	            }
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	      }
-//	 }
 }

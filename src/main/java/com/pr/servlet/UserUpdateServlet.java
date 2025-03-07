@@ -21,61 +21,49 @@ import org.apache.catalina.User;
 public class UserUpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
-    
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        System.out.println("Received ID: " + id);  // Debugging line
-
-        try {
-            // Database connection setup
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = "jdbc:mysql://localhost:3306/Login_Regi_DB";
-            String username = "root";
-            String passwordd1 = "1234";
-            Connection connection = DriverManager.getConnection(url, username, passwordd1);
-
-            // SQL Query to fetch user details along with addresses
-            String query = "SELECT u.id, u.fname, u.lname, u.email, u.phone,u.password" +
-                           "COALESCE(GROUP_CONCAT(a.address SEPARATOR ', '), '') AS addresses " +
-                           "FROM Registration u LEFT JOIN addresses a ON u.id = a.id " +
-                           "WHERE u.id = ? GROUP BY u.id";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, id);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String fname = resultSet.getString("fname");
-                String lname = resultSet.getString("lname");
-                String email = resultSet.getString("email");
-                long phone = resultSet.getLong("phone");
-                String passwordd = resultSet.getString("password");
-                String addresses = resultSet.getString("addresses");
-
-                System.out.println("Fetched Data: " + fname + ", " + lname + ", " + email+", "+", "+phone+", "+addresses);  
-
-                // Set the retrieved data into request attributes
-                req.setAttribute("id", id);
-                req.setAttribute("fname", fname);
-                req.setAttribute("lname", lname);
-                req.setAttribute("email", email);
-                req.setAttribute("phone", phone);
-                req.setAttribute("password", passwordd);
-                req.setAttribute("addresses", addresses);
-            } else {
-                System.out.println("No user found for ID: " + id);  // Debugging line
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Forward the request to UpdateTheUser.jsp
-        req.getRequestDispatcher("UpdateTheUser.jsp").forward(req, resp);
-    }
-    
+	/*
+	 * @Override protected void doGet(HttpServletRequest req, HttpServletResponse
+	 * resp) throws ServletException, IOException { int id =
+	 * Integer.parseInt(req.getParameter("id")); System.out.println("Received ID: "
+	 * + id); // Debugging line
+	 * 
+	 * try { // Database connection setup Class.forName("com.mysql.cj.jdbc.Driver");
+	 * String url = "jdbc:mysql://localhost:3306/Login_Regi_DB"; String username =
+	 * "root"; String passwordd1 = "1234"; Connection connection =
+	 * DriverManager.getConnection(url, username, passwordd1);
+	 * 
+	 * // SQL Query to fetch user details along with addresses String query =
+	 * "SELECT u.id, u.fname, u.lname, u.email, u.phone,u.password" +
+	 * "COALESCE(GROUP_CONCAT(a.address SEPARATOR ', '), '') AS addresses " +
+	 * "FROM Registration u LEFT JOIN addresses a ON u.id = a.id " +
+	 * "WHERE u.id = ? GROUP BY u.id";
+	 * 
+	 * PreparedStatement preparedStatement = connection.prepareStatement(query);
+	 * preparedStatement.setInt(1, id);
+	 * 
+	 * ResultSet resultSet = preparedStatement.executeQuery();
+	 * 
+	 * if (resultSet.next()) { String fname = resultSet.getString("fname"); String
+	 * lname = resultSet.getString("lname"); String email =
+	 * resultSet.getString("email"); long phone = resultSet.getLong("phone"); String
+	 * passwordd = resultSet.getString("password"); String addresses =
+	 * resultSet.getString("addresses");
+	 * 
+	 * System.out.println("Fetched Data: " + fname + ", " + lname + ", " +
+	 * email+", "+", "+phone+", "+addresses);
+	 * 
+	 * // Set the retrieved data into request attributes req.setAttribute("id", id);
+	 * req.setAttribute("fname", fname); req.setAttribute("lname", lname);
+	 * req.setAttribute("email", email); req.setAttribute("phone", phone);
+	 * req.setAttribute("password", passwordd); req.setAttribute("addresses",
+	 * addresses); } else { System.out.println("No user found for ID: " + id); //
+	 * Debugging line }
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); }
+	 * 
+	 * // Forward the request to UpdateTheUser.jsp
+	 * req.getRequestDispatcher("UserPage.jsp").forward(req, resp); }
+	 */
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -84,7 +72,7 @@ public class UserUpdateServlet extends HttpServlet {
         String lname = req.getParameter("lname");
         String phone = req.getParameter("phone");
         String password = req.getParameter("password");
-        String[] addresses = req.getParameterValues("address_line");
+        String[] addresses = req.getParameterValues("addresses");
 
         try {
             // Database connection setup
@@ -95,13 +83,13 @@ public class UserUpdateServlet extends HttpServlet {
             Connection connection = DriverManager.getConnection(url, username, passwordd1);
 
             // Update user info
-            String updateQuery = "UPDATE Registration SET fname = ?, lname = ?, password = ?, phone = ? WHERE email = ?";
+            String updateQuery = "UPDATE Registration SET fname = ?, lname = ?, phone = ? WHERE email = ?";
             PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
             updateStmt.setString(1, fname);
             updateStmt.setString(2, lname);
-            updateStmt.setString(3, password);
-            updateStmt.setString(4, email);
-            updateStmt.setNString(4, phone);
+//            updateStmt.setString(3, password);
+            updateStmt.setString(3, email);
+            updateStmt.setString(4, phone);
             int rowsUpdated = updateStmt.executeUpdate();
 
 //             Handle address updates
